@@ -35,5 +35,6 @@ branch 이름에 한글이 들어가면 문제가 생겨서 반드시 ⭐본인 
 └───kh
     └───1주차
         ├── BOJ.1753.cpp
-        └── codetree.frog-journey.cpp
+        ├── codetree.frog-journey.cpp
+        └── SWEA.뉴스알림.cpp
 ```
