@@ -1,0 +1,86 @@
+import java.util.*;
+
+class UserSolution {
+    class UserNotification implements Comparable<UserNotification>{
+        int sendAt;
+        int newsId;
+        int channelId;
+        UserNotification(int sendAt, int newsId, int channelId) {
+            this.sendAt = sendAt;
+            this.newsId = newsId;
+            this.channelId = channelId;
+        }
+
+        @Override
+        public int compareTo(UserNotification o) {
+            if(this.sendAt==o.sendAt) return this.newsId-o.newsId;
+            else return this.sendAt-o.sendAt;
+        }
+    }
+
+    int userCnt, channelCnt;
+    Map<Integer, List<Integer>> channels = new HashMap<>(); // channelId:userList
+    Map<Integer, List<Integer>> users = new HashMap<>();    // userId:channelList
+    Set<Integer> cancel = new HashSet<>();
+    Map<Integer, PriorityQueue<UserNotification>> userQueue = new HashMap<>();
+
+    void init(int N, int K) {
+        userCnt = N;
+        channelCnt = K;
+        channels.clear();
+        users.clear();
+        cancel.clear();
+        userQueue.clear();
+    }
+
+    void registerUser(int mTime, int mUID, int mNum, int mChannelIDs[]) {
+
+        // 채널별 구독한 유저 리스트
+        // 유저별 구독한 채널 리스트
+        for (int i=0; i<mNum; i++) {
+            int channelID = mChannelIDs[i];
+            List<Integer> userList = channels.getOrDefault(channelID, new ArrayList<>());
+            userList.add(mUID);
+            channels.put(channelID, userList);
+
+            List<Integer> channelList = users.getOrDefault(mUID, new ArrayList<>());
+            channelList.add(channelID);
+            users.put(mUID, channelList);
+
+            userQueue.put(mUID, userQueue.getOrDefault(mUID, new PriorityQueue<UserNotification>()));
+        }
+
+    }
+
+    int offerNews(int mTime, int mNewsID, int mDelay, int mChannelID) {
+        // mTime+mDelay 에 전송되는 뉴스 알림 객체를 mChannel을 구독한 유저의 큐에 저장합니다.
+        List<Integer> userList = channels.getOrDefault(mChannelID, Collections.emptyList());
+        for (int uid : userList) {
+//            System.out.println(uid);
+            userQueue.computeIfAbsent(uid, k->new PriorityQueue<>());
+            userQueue.get(uid).add(new UserNotification(mTime + mDelay, mNewsID, mChannelID));
+        }
+        // 해당 채널에 등록한 유저의 수를 반환합니다.
+        return userList.size();
+    }
+
+    void cancelNews(int mTime, int mNewsID) {
+        cancel.add(mNewsID);
+    }
+
+    int checkUser(int mTime, int mUID, int mRetIDs[]) {
+        userQueue.computeIfAbsent(mUID, k->new PriorityQueue<>());
+        List<Integer> readNoti = new ArrayList<>();
+        while (!userQueue.get(mUID).isEmpty() && userQueue.get(mUID).peek().sendAt <= mTime) {
+            // 취소된 뉴스라면 pass
+            UserNotification noti = userQueue.get(mUID).poll();
+            if (cancel.contains(noti.newsId)) continue;
+            readNoti.add(noti.newsId);
+        }
+        // 확인한 최신 뉴스 순서대로 저장
+        for(int i=0; i<Math.min(readNoti.size(), 3); i++) {
+            mRetIDs[i] = readNoti.get(readNoti.size()-1-i);
+        }
+        return readNoti.size();
+    }
+}
