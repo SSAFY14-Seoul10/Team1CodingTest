@@ -38,3 +38,12 @@ branch 이름에 한글이 들어가면 문제가 생겨서 반드시 ⭐본인 
         ├── codetree.frog-journey.cpp
         └── SWEA.뉴스알림.cpp
 ```
+
+## 📚 문제 목록
+
+| 주차 | 문제 |
+| ---- | ---- |
+| Week 1 | [[BOJ 1753] 최단경로](https://www.acmicpc.net/problem/1753) <br/> [[코드트리] 개구리의 여행](https://www.codetree.ai/ko/frequent-problems/samsung-sw/problems/frog-journey/description) <br/> |
+| Week 2 | [[BOJ 2696] 중앙값 구하기](https://www.acmicpc.net/problem/2696) <br/> [[SWEA] 뉴스알림](https://swexpertacademy.com/main/code/codeBattle/problemDetail.do?contestProbId=AYkpx926Py0DFASe&categoryId=AZTujPra0t3HBIOK&categoryType=BATTLE&battleMainPageIndex=1) |
+| Week 3 | [[BOJ 1717] 집합의 표현](https://www.acmicpc.net/problem/1717) <br/> [[BOJ 4195] 친구 네트워크](https://www.acmicpc.net/problem/4195) <br/> |
+| Week 4 | []() <br/> []() <br/> |
